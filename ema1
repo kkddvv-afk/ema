@@ -1,0 +1,79 @@
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+
+# Функция для поиска x при заданном y методом линейной интерполяции
+def x_at_y_linear(df: pd.DataFrame, target_y: float):
+    x = df["x"].tolist()
+    y = df["y"].tolist()
+    for i in range(len(y) - 1):
+        y1, y2 = y[i], y[i + 1]
+        if (y1 >= target_y >= y2) or (y2 >= target_y >= y1):
+            x1, x2 = x[i], x[i + 1]
+            if y2 != y1:
+                return x1 + (target_y - y1) * (x2 - x1) / (y2 - y1)
+            else:
+                return (x1 + x2) / 2.0
+    return None
+
+
+st.title("📊 Сравнение графиков по загруженным данным")
+
+st.markdown("Загрузи до **трёх файлов CSV или Excel (XLSX/XLS)** с колонками `x, y`")
+
+uploaded_files = st.file_uploader("Выбери файлы", type=["csv", "xlsx", "xls"], accept_multiple_files=True)
+
+y_target = st.number_input("Значение Y для поиска X", value=0.75, format="%.4f")
+
+if uploaded_files:
+    fig = go.Figure()
+    results = []
+
+    for idx, file in enumerate(uploaded_files, start=1):
+        # Определяем тип файла
+        if file.name.endswith(".csv"):
+            df = pd.read_csv(file, delimiter="[,;\\t ]+", engine="python")  # авторазделитель
+        else:
+            df = pd.read_excel(file)
+
+        df = df.rename(columns=lambda c: str(c).strip().lower())  # приводим имена колонок
+        if "x" not in df.columns or "y" not in df.columns:
+            st.error(f"⚠️ Файл {file.name} не содержит колонок 'x' и 'y'")
+            continue
+
+        df = df.sort_values("x")  # сортируем по X
+
+        # Добавляем график
+        fig.add_trace(go.Scatter(
+            x=df["x"], y=df["y"],
+            mode="lines+markers",
+            name=f"График {idx} ({file.name})"
+        ))
+
+        # Интерполяция для Y_target
+        x_val = x_at_y_linear(df, y_target)
+        results.append({"График": f"График {idx} ({file.name})", f"X при Y={y_target}": x_val})
+
+        # Отметка на графике
+        if x_val:
+            fig.add_trace(go.Scatter(
+                x=[x_val], y=[y_target],
+                mode="markers+text",
+                name=f"Y={y_target} (График {idx})",
+                text=[f"{x_val:.3f}"],
+                textposition="top center"
+            ))
+
+    # Настройки графика
+    fig.update_layout(
+        title="Сравнение графиков",
+        xaxis_title="X",
+        yaxis_title="Y",
+        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+        template="plotly_white"
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.subheader("📋 Таблица результатов")
+    st.dataframe(pd.DataFrame(results))
