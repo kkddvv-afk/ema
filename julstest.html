@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Test: MUST vs HAVE TO</title>
+    <style>
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-black: rgba(0, 0, 0, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-blue-500: rgba(2, 132, 199, 1);
+            --color-blue-600: rgba(3, 105, 161, 1);
+            --color-green-500: rgba(34, 197, 94, 1);
+            --color-green-600: rgba(22, 163, 74, 1);
+            --color-red-500: rgba(239, 68, 68, 1);
+            --color-red-600: rgba(220, 38, 38, 1);
+            
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-blue-500);
+            --color-primary-hover: var(--color-blue-600);
+            --color-border: rgba(94, 82, 64, 0.2);
+            
+            --font-family-base: 'FKGroteskNeue', 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-base: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-size-4xl: 30px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            --line-height-normal: 1.5;
+            --line-height-tight: 1.2;
+            
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            
+            --radius-base: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        @font-face {
+            font-family: 'FKGroteskNeue';
+            src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: var(--line-height-normal);
+            font-size: var(--font-size-base);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-32);
+        }
+
+        .slide {
+            width: 960px;
+            height: 540px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            margin-bottom: var(--space-32);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: var(--space-16);
+            right: var(--space-24);
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .title-slide {
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: 48px;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-24);
+            line-height: var(--line-height-tight);
+        }
+
+        .title-slide p {
+            font-size: var(--font-size-2xl);
+            color: var(--color-text-secondary);
+            margin-top: var(--space-16);
+        }
+
+        .question-slide {
+            justify-content: flex-start;
+        }
+
+        .question-text {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-32);
+            text-align: center;
+            width: 100%;
+            line-height: 1.4;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            width: 100%;
+            margin-bottom: var(--space-16);
+        }
+
+        .option-btn {
+            padding: var(--space-20) var(--space-24);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-medium);
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            color: var(--color-text);
+            font-family: var(--font-family-base);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--color-primary);
+            background-color: rgba(2, 132, 199, 0.05);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .option-btn.correct {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-color: var(--color-green-500);
+            color: var(--color-green-600);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .option-btn.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: var(--color-red-500);
+            color: var(--color-red-600);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .feedback-container {
+            width: 100%;
+            margin-top: var(--space-16);
+            padding: var(--space-20);
+            border-radius: var(--radius-base);
+            display: none;
+        }
+
+        .feedback-container.show {
+            display: block;
+        }
+
+        .feedback-container.correct-feedback {
+            background-color: rgba(34, 197, 94, 0.1);
+            border: 2px solid var(--color-green-500);
+        }
+
+        .feedback-container.incorrect-feedback {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--color-red-500);
+        }
+
+        .feedback-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-12);
+        }
+
+        .feedback-container.correct-feedback .feedback-title {
+            color: var(--color-green-600);
+        }
+
+        .feedback-container.incorrect-feedback .feedback-title {
+            color: var(--color-red-600);
+        }
+
+        .feedback-text {
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        .summary-slide {
+            text-align: center;
+        }
+
+        .summary-slide h2 {
+            font-size: 42px;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-32);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin: var(--space-32) 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 64px;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-8);
+        }
+
+        .stat-label {
+            font-size: var(--font-size-xl);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .message {
+            font-size: var(--font-size-2xl);
+            color: var(--color-text);
+            margin-top: var(--space-24);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .review-slide {
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .review-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-red-600);
+            margin-bottom: var(--space-20);
+        }
+
+        .review-question {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-16);
+            line-height: 1.4;
+        }
+
+        .review-answer {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-12);
+        }
+
+        .your-answer {
+            color: var(--color-red-600);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .correct-answer {
+            color: var(--color-green-600);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .review-explanation {
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            color: var(--color-text);
+            background-color: rgba(2, 132, 199, 0.05);
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            border-left: 4px solid var(--color-primary);
+            margin-top: var(--space-16);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide">
+            <h1>English Test:<br>MUST vs HAVE TO</h1>
+            <p>25 Questions for 4th Grade Students</p>
+            <p style="margin-top: 16px; font-size: 18px; color: var(--color-text);">Тест по английскому языку:<br>Модальные глаголы MUST и HAVE TO</p>
+        </div>
+
+        <!-- Slides 2-26: Questions -->
+        <div class="slide question-slide">
+            <div class="slide-number">2 / 27</div>
+            <div class="question-text">Which sentence is correct?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(0, 0, 1)">a) I must to do my homework.</button>
+                <button class="option-btn" onclick="checkAnswer(0, 1, 1)">b) I must do my homework.</button>
+                <button class="option-btn" onclick="checkAnswer(0, 2, 1)">c) I have to doing my homework.</button>
+                <button class="option-btn" onclick="checkAnswer(0, 3, 1)">d) I doing have to my homework.</button>
+            </div>
+            <div class="feedback-container" id="feedback-0"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">3 / 27</div>
+            <div class="question-text">Choose the correct answer: 'You _____ be quiet in the library.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(1, 0, 2)">a) must to</button>
+                <button class="option-btn" onclick="checkAnswer(1, 1, 2)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(1, 2, 2)">c) must</button>
+                <button class="option-btn" onclick="checkAnswer(1, 3, 2)">d) has to</button>
+            </div>
+            <div class="feedback-container" id="feedback-1"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">4 / 27</div>
+            <div class="question-text">What is the negative of MUST?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(2, 0, 3)">a) must don't</button>
+                <button class="option-btn" onclick="checkAnswer(2, 1, 3)">b) don't must</button>
+                <button class="option-btn" onclick="checkAnswer(2, 2, 3)">c) mustn't</button>
+                <button class="option-btn" onclick="checkAnswer(2, 3, 3)">d) not must</button>
+            </div>
+            <div class="feedback-container" id="feedback-2"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">5 / 27</div>
+            <div class="question-text">Complete: 'I _____ go to school tomorrow. It's the law.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(3, 0, 4)">a) must</button>
+                <button class="option-btn" onclick="checkAnswer(3, 1, 4)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(3, 2, 4)">c) both are correct</button>
+                <button class="option-btn" onclick="checkAnswer(3, 3, 4)">d) neither</button>
+            </div>
+            <div class="feedback-container" id="feedback-3"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">6 / 27</div>
+            <div class="question-text">My mom said 'You _____ clean your room.' Which is MORE typical?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(4, 0, 5)">a) must</button>
+                <button class="option-btn" onclick="checkAnswer(4, 1, 5)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(4, 2, 5)">c) both the same</button>
+                <button class="option-btn" onclick="checkAnswer(4, 3, 5)">d) should</button>
+            </div>
+            <div class="feedback-container" id="feedback-4"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">7 / 27</div>
+            <div class="question-text">Complete: 'I _____ drink water. I'm very thirsty!'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(5, 0, 6)">a) have to</button>
+                <button class="option-btn" onclick="checkAnswer(5, 1, 6)">b) must</button>
+                <button class="option-btn" onclick="checkAnswer(5, 2, 6)">c) don't have to</button>
+                <button class="option-btn" onclick="checkAnswer(5, 3, 6)">d) mustn't</button>
+            </div>
+            <div class="feedback-container" id="feedback-5"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">8 / 27</div>
+            <div class="question-text">Which is the question form?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(6, 0, 7)">a) Do you must go?</button>
+                <button class="option-btn" onclick="checkAnswer(6, 1, 7)">b) Must you go?</button>
+                <button class="option-btn" onclick="checkAnswer(6, 2, 7)">c) You must go?</button>
+                <button class="option-btn" onclick="checkAnswer(6, 3, 7)">d) Have you must to go?</button>
+            </div>
+            <div class="feedback-container" id="feedback-6"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">9 / 27</div>
+            <div class="question-text">Complete: 'Children _____ eat vegetables every day.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(7, 0, 8)">a) must to</button>
+                <button class="option-btn" onclick="checkAnswer(7, 1, 8)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(7, 2, 8)">c) must the</button>
+                <button class="option-btn" onclick="checkAnswer(7, 3, 8)">d) to have</button>
+            </div>
+            <div class="feedback-container" id="feedback-7"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">10 / 27</div>
+            <div class="question-text">What does MUSTN'T mean?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(8, 0, 9)">a) don't need to</button>
+                <button class="option-btn" onclick="checkAnswer(8, 1, 9)">b) not allowed to / it's prohibited</button>
+                <button class="option-btn" onclick="checkAnswer(8, 2, 9)">c) probably won't</button>
+                <button class="option-btn" onclick="checkAnswer(8, 3, 9)">d) should try</button>
+            </div>
+            <div class="feedback-container" id="feedback-8"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">11 / 27</div>
+            <div class="question-text">Complete: 'The students _____ arrive on time for school. It's the rule.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(9, 0, 10)">a) must be</button>
+                <button class="option-btn" onclick="checkAnswer(9, 1, 10)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(9, 2, 10)">c) have too</button>
+                <button class="option-btn" onclick="checkAnswer(9, 3, 10)">d) must to be</button>
+            </div>
+            <div class="feedback-container" id="feedback-9"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">12 / 27</div>
+            <div class="question-text">Complete: 'I _____ wear a seatbelt in the car. It's the law.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(10, 0, 11)">a) must</button>
+                <button class="option-btn" onclick="checkAnswer(10, 1, 11)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(10, 2, 11)">c) must to</button>
+                <button class="option-btn" onclick="checkAnswer(10, 3, 11)">d) am having to</button>
+            </div>
+            <div class="feedback-container" id="feedback-10"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">13 / 27</div>
+            <div class="question-text">Which sentence is negative and means 'it's not necessary'?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(11, 0, 12)">a) I mustn't go to school.</button>
+                <button class="option-btn" onclick="checkAnswer(11, 1, 12)">b) I don't have to go to school.</button>
+                <button class="option-btn" onclick="checkAnswer(11, 2, 12)">c) I must not to go.</button>
+                <button class="option-btn" onclick="checkAnswer(11, 3, 12)">d) I having to go.</button>
+            </div>
+            <div class="feedback-container" id="feedback-11"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">14 / 27</div>
+            <div class="question-text">Complete: 'I _____ study hard. I want to get a good grade!'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(12, 0, 13)">a) have to</button>
+                <button class="option-btn" onclick="checkAnswer(12, 1, 13)">b) must to</button>
+                <button class="option-btn" onclick="checkAnswer(12, 2, 13)">c) must</button>
+                <button class="option-btn" onclick="checkAnswer(12, 3, 13)">d) am having to</button>
+            </div>
+            <div class="feedback-container" id="feedback-12"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">15 / 27</div>
+            <div class="question-text">Choose the correct sentence:</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(13, 0, 14)">a) You have to to go to school.</button>
+                <button class="option-btn" onclick="checkAnswer(13, 1, 14)">b) You must to go to school.</button>
+                <button class="option-btn" onclick="checkAnswer(13, 2, 14)">c) You must go to school.</button>
+                <button class="option-btn" onclick="checkAnswer(13, 3, 14)">d) You having to go school.</button>
+            </div>
+            <div class="feedback-container" id="feedback-13"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">16 / 27</div>
+            <div class="question-text">Complete: 'Do you _____ come to school on Saturday?'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(14, 0, 15)">a) must</button>
+                <button class="option-btn" onclick="checkAnswer(14, 1, 15)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(14, 2, 15)">c) both</button>
+                <button class="option-btn" onclick="checkAnswer(14, 3, 15)">d) should</button>
+            </div>
+            <div class="feedback-container" id="feedback-14"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">17 / 27</div>
+            <div class="question-text">Which shows a strong personal necessity or feeling?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(15, 0, 16)">a) 'You have to study for the test.' (teacher speaking)</button>
+                <button class="option-btn" onclick="checkAnswer(15, 1, 16)">b) 'I must eat! I'm so hungry!' (the person speaking)</button>
+                <button class="option-btn" onclick="checkAnswer(15, 2, 16)">c) Both show the same meaning</button>
+                <button class="option-btn" onclick="checkAnswer(15, 3, 16)">d) Neither shows strong feeling</button>
+            </div>
+            <div class="feedback-container" id="feedback-15"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">18 / 27</div>
+            <div class="question-text">Teacher says: 'You _____ do your homework.' Which is more common?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(16, 0, 17)">a) must</button>
+                <button class="option-btn" onclick="checkAnswer(16, 1, 17)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(16, 2, 17)">c) must to</button>
+                <button class="option-btn" onclick="checkAnswer(16, 3, 17)">d) having to</button>
+            </div>
+            <div class="feedback-container" id="feedback-16"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">19 / 27</div>
+            <div class="question-text">Complete: 'Players _____ wear a helmet when riding a bike. It's for safety.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(17, 0, 18)">a) must</button>
+                <button class="option-btn" onclick="checkAnswer(17, 1, 18)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(17, 2, 18)">c) don't must</button>
+                <button class="option-btn" onclick="checkAnswer(17, 3, 18)">d) are having</button>
+            </div>
+            <div class="feedback-container" id="feedback-17"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">20 / 27</div>
+            <div class="question-text">What's the OPPOSITE meaning of 'You don't have to go'?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(18, 0, 19)">a) 'You mustn't go' (not allowed)</button>
+                <button class="option-btn" onclick="checkAnswer(18, 1, 19)">b) 'You must go' (you need to go)</button>
+                <button class="option-btn" onclick="checkAnswer(18, 2, 19)">c) 'You having to go'</button>
+                <button class="option-btn" onclick="checkAnswer(18, 3, 19)">d) 'You haven't to go'</button>
+            </div>
+            <div class="feedback-container" id="feedback-18"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">21 / 27</div>
+            <div class="question-text">Complete: 'I _____ do my homework before playing video games. My mom said so.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(19, 0, 20)">a) must</button>
+                <button class="option-btn" onclick="checkAnswer(19, 1, 20)">b) have to</button>
+                <button class="option-btn" onclick="checkAnswer(19, 2, 20)">c) do have to</button>
+                <button class="option-btn" onclick="checkAnswer(19, 3, 20)">d) to must</button>
+            </div>
+            <div class="feedback-container" id="feedback-19"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">22 / 27</div>
+            <div class="question-text">It's 9 PM. Your parents say 'Go to bed!' Which is correct?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(20, 0, 21)">a) 'I must go to bed because my parents say so.'</button>
+                <button class="option-btn" onclick="checkAnswer(20, 1, 21)">b) 'I have to go to bed. It's bedtime.'</button>
+                <button class="option-btn" onclick="checkAnswer(20, 2, 21)">c) 'I don't must go to bed.'</button>
+                <button class="option-btn" onclick="checkAnswer(20, 3, 21)">d) Both A and B are correct</button>
+            </div>
+            <div class="feedback-container" id="feedback-20"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">23 / 27</div>
+            <div class="question-text">Your friend is sick. You say: '_____ go to the doctor.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(21, 0, 22)">a) 'You must to go to'</button>
+                <button class="option-btn" onclick="checkAnswer(21, 1, 22)">b) 'You must go'</button>
+                <button class="option-btn" onclick="checkAnswer(21, 2, 22)">c) 'You having to go'</button>
+                <button class="option-btn" onclick="checkAnswer(21, 3, 22)">d) 'You not must go'</button>
+            </div>
+            <div class="feedback-container" id="feedback-21"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">24 / 27</div>
+            <div class="question-text">School rule: No running in the hallway. Complete: 'We _____ run in the hallway.'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(22, 0, 23)">a) mustn't</button>
+                <button class="option-btn" onclick="checkAnswer(22, 1, 23)">b) don't have to</button>
+                <button class="option-btn" onclick="checkAnswer(22, 2, 23)">c) don't must</button>
+                <button class="option-btn" onclick="checkAnswer(22, 3, 23)">d) haven't to</button>
+            </div>
+            <div class="feedback-container" id="feedback-22"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">25 / 27</div>
+            <div class="question-text">Your dad says: 'Please clean your room, but it's not urgent.' Which is correct?</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(23, 0, 24)">a) 'I must clean my room.'</button>
+                <button class="option-btn" onclick="checkAnswer(23, 1, 24)">b) 'I don't have to clean my room now.'</button>
+                <button class="option-btn" onclick="checkAnswer(23, 2, 24)">c) 'I mustn't clean my room.'</button>
+                <button class="option-btn" onclick="checkAnswer(23, 3, 24)">d) 'I must not cleaning.'</button>
+            </div>
+            <div class="feedback-container" id="feedback-23"></div>
+        </div>
+
+        <div class="slide question-slide">
+            <div class="slide-number">26 / 27</div>
+            <div class="question-text">Complete: 'I _____ practice my piano. I really want to be a great musician!'</div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(24, 0, 25)">a) have to</button>
+                <button class="option-btn" onclick="checkAnswer(24, 1, 25)">b) must</button>
+                <button class="option-btn" onclick="checkAnswer(24, 2, 25)">c) do have to</button>
+                <button class="option-btn" onclick="checkAnswer(24, 3, 25)">d) to must</button>
+            </div>
+            <div class="feedback-container" id="feedback-24"></div>
+        </div>
+
+        <!-- Slide 27: Summary -->
+        <div class="slide summary-slide" id="summary-slide" style="display: none;">
+            <div class="slide-number">27 / 27</div>
+<h2>Итоговые результаты теста</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-value" id="correct-count">0</div>
+                    <div class="stat-label">Правильных ответов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="incorrect-count" style="color: var(--color-red-500);">0</div>
+                    <div class="stat-label">Неправильных ответов</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="score-percentage">0%</div>
+                <div class="stat-label">Ваш результат</div>
+            </div>
+            <div class="message" id="result-message"></div>
+        </div>
+
+        <!-- Review slides will be dynamically inserted here -->
+        <div id="review-slides-container"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which sentence is correct?",
+                options: [
+                    "a) I must to do my homework.",
+                    "b) I must do my homework.",
+                    "c) I have to doing my homework.",
+                    "d) I doing have to my homework."
+                ],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'I must do my homework.' После MUST и HAVE TO используется глагол без 'to'. Правильно: 'I must do' или 'I have to do'. Неправильно: 'I must to do' или 'I have to doing'."
+            },
+            {
+                question: "Choose the correct answer: 'You _____ be quiet in the library.'",
+                options: ["a) must to", "b) have to", "c) must", "d) has to"],
+                correct: 2,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to' или 'must'. После MUST не пишется 'to'. Говорим 'must be', не 'must to be'. Оба варианта верны: 'You must be quiet' или 'You have to be quiet'."
+            },
+            {
+                question: "What is the negative of MUST?",
+                options: ["a) must don't", "b) don't must", "c) mustn't", "d) not must"],
+                correct: 2,
+                explanation_ru: "✓ ПРАВИЛЬНО: mustn't (must not). Отрицание MUST - это mustn't. Говорим: 'You mustn't run' (Ты не можешь бегать). Неправильно: 'You don't must' или 'You must don't'."
+            },
+            {
+                question: "Complete: 'I _____ go to school tomorrow. It's the law.'",
+                options: ["a) must", "b) have to", "c) both are correct", "d) neither"],
+                correct: 2,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. HAVE TO лучше подходит для правил извне (закон, школьные правила). MUST показывает личное сильное чувство. 'I have to go' - это правило от кого-то другого."
+            },
+            {
+                question: "My mom said 'You _____ clean your room.' Which is MORE typical?",
+                options: ["a) must", "b) have to", "c) both the same", "d) should"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. Когда мама говорит это правило, используем HAVE TO. 'You have to clean your room' - мама (начальство) дает это правило. MUST используем для собственных сильных чувств."
+            },
+            {
+                question: "Complete: 'I _____ drink water. I'm very thirsty!'",
+                options: ["a) have to", "b) must", "c) don't have to", "d) mustn't"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'must'. MUST показывает личное сильное чувство или необходимость. 'I must drink water' - это мое личное сильное желание или необходимость прямо сейчас."
+            },
+            {
+                question: "Which is the question form?",
+                options: ["a) Do you must go?", "b) Must you go?", "c) You must go?", "d) Have you must to go?"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'Must you go?' Для MUST вопрос: 'Must you go?' (без 'do'). Для HAVE TO вопрос: 'Do you have to go?' С MUST не используем 'do'."
+            },
+            {
+                question: "Complete: 'Children _____ eat vegetables every day.'",
+                options: ["a) must to", "b) have to", "c) must the", "d) to have"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. HAVE TO используется для правила/рекомендации извне. 'Children have to eat vegetables' - это ожидание от детей, правило для здоровья."
+            },
+            {
+                question: "What does MUSTN'T mean?",
+                options: ["a) don't need to", "b) not allowed to / it's prohibited", "c) probably won't", "d) should try"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'not allowed to / it's prohibited' (не разрешено / это запрещено). MUSTN'T = запретить. 'You mustn't run in the classroom' = Ты не можешь бегать в классе (это запрещено)."
+            },
+            {
+                question: "Complete: 'The students _____ arrive on time for school. It's the rule.'",
+                options: ["a) must be", "b) have to", "c) have too", "d) must to be"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. HAVE TO используется для школьного правила (внешнее правило). 'Students have to arrive on time' - это школьное правило от администрации."
+            },
+            {
+                question: "Complete: 'I _____ wear a seatbelt in the car. It's the law.'",
+                options: ["a) must", "b) have to", "c) must to", "d) am having to"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. HAVE TO подходит для закона (правило от государства - внешнее правило). 'I have to wear a seatbelt' - это закон, обязательное правило."
+            },
+            {
+                question: "Which sentence is negative and means 'it's not necessary'?",
+                options: ["a) I mustn't go to school.", "b) I don't have to go to school.", "c) I must not to go.", "d) I having to go."],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'I don't have to go to school.' DON'T HAVE TO = не обязательно (опционально). MUSTN'T = не разрешено (запрещено). 'You don't have to eat dessert' = это необязательно (ты можешь если хочешь)."
+            },
+            {
+                question: "Complete: 'I _____ study hard. I want to get a good grade!'",
+                options: ["a) have to", "b) must to", "c) must", "d) am having to"],
+                correct: 2,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'must'. MUST показывает сильное личное чувство или решение. 'I must study hard' - это мое личное желание, я сам решил что это важно."
+            },
+            {
+                question: "Choose the correct sentence:",
+                options: ["a) You have to to go to school.", "b) You must to go to school.", "c) You must go to school.", "d) You having to go school."],
+                correct: 2,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'You must go to school.' После MUST не пишется 'to' перед следующим глаголом. Правильно: 'must go', неправильно: 'must to go' или 'have to to go'."
+            },
+            {
+                question: "Complete: 'Do you _____ come to school on Saturday?'",
+                options: ["a) must", "b) have to", "c) both", "d) should"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. Для вопроса 'Do you have to...?' используем DO. Правильно: 'Do you have to come to school?' Для MUST: 'Must you come to school?' (без 'do')."
+            },
+            {
+                question: "Which shows a strong personal necessity or feeling?",
+                options: [
+                    "a) 'You have to study for the test.' (teacher speaking)",
+                    "b) 'I must eat! I'm so hungry!' (the person speaking)",
+                    "c) Both show the same meaning",
+                    "d) Neither shows strong feeling"
+                ],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'I must eat! I'm so hungry!' MUST показывает сильное личное чувство. HAVE TO показывает внешние правила. 'I must eat!' - это сильное личное ощущение."
+            },
+            {
+                question: "Teacher says: 'You _____ do your homework.' Which is more common?",
+                options: ["a) must", "b) have to", "c) must to", "d) having to"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. HAVE TO чаще используется для правил от людей с полномочиями (учители, родители). 'You have to do your homework' - учитель дает это правило."
+            },
+            {
+                question: "Complete: 'Players _____ wear a helmet when riding a bike. It's for safety.'",
+                options: ["a) must", "b) have to", "c) don't must", "d) are having"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. HAVE TO используется для правила безопасности (внешнее правило). 'Players have to wear a helmet' - это правило для безопасности."
+            },
+            {
+                question: "What's the OPPOSITE meaning of 'You don't have to go'?",
+                options: ["a) 'You mustn't go' (not allowed)", "b) 'You must go' (you need to go)", "c) 'You having to go'", "d) 'You haven't to go'"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'You must go'. 'You don't have to go' = это необязательно. Противоположное значение: 'You must go' = ты точно должен идти. MUSTN'T = не разрешено (другое значение)."
+            },
+            {
+                question: "Complete: 'I _____ do my homework before playing video games. My mom said so.'",
+                options: ["a) must", "b) have to", "c) do have to", "d) to must"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'have to'. HAVE TO используется для правила от мамы (человек с полномочиями). 'I have to do my homework' - мама дает это правило."
+            },
+            {
+                question: "It's 9 PM. Your parents say 'Go to bed!' Which is correct?",
+                options: [
+                    "a) 'I must go to bed because my parents say so.'",
+                    "b) 'I have to go to bed. It's bedtime.'",
+                    "c) 'I don't must go to bed.'",
+                    "d) Both A and B are correct"
+                ],
+                correct: 3,
+                explanation_ru: "✓ ПРАВИЛЬНО: Оба варианта A и B верны! HAVE TO для правила от родителей. MUST для личного принятия этого правила. Оба правильно: 'I must go to bed' или 'I have to go to bed.'"
+            },
+            {
+                question: "Your friend is sick. You say: '_____ go to the doctor.'",
+                options: ["a) 'You must to go to'", "b) 'You must go'", "c) 'You having to go'", "d) 'You not must go'"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'You must go'. MUST показывает сильное убеждение в необходимости. 'You must go to the doctor!' - это важно! (мое личное мнение)."
+            },
+            {
+                question: "School rule: No running in the hallway. Complete: 'We _____ run in the hallway.'",
+                options: ["a) mustn't", "b) don't have to", "c) don't must", "d) haven't to"],
+                correct: 0,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'mustn't' (must not). MUSTN'T = запрещено (не разрешено). 'We mustn't run in the hallway' = Нам запрещено бегать в коридоре. DON'T HAVE TO означает 'не обязательно' (другое значение)."
+            },
+            {
+                question: "Your dad says: 'Please clean your room, but it's not urgent.' Which is correct?",
+                options: ["a) 'I must clean my room.'", "b) 'I don't have to clean my room now.'", "c) 'I mustn't clean my room.'", "d) 'I must not cleaning.'"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'I don't have to clean my room now.' DON'T HAVE TO = не обязательно прямо сейчас (опционально, можно потом). MUSTN'T = запрещено (совсем другое значение)."
+            },
+            {
+                question: "Complete: 'I _____ practice my piano. I really want to be a great musician!'",
+                options: ["a) have to", "b) must", "c) do have to", "d) to must"],
+                correct: 1,
+                explanation_ru: "✓ ПРАВИЛЬНО: 'must'. MUST показывает личное сильное желание и решение. 'I must practice' = это мое решение, я очень хочу быть хорошим музыкантом!"
+            }
+        ];
+
+        let userAnswers = [];
+        let answeredCount = 0;
+
+        function checkAnswer(questionIndex, selectedOption, slideNumber) {
+            // Prevent multiple answers
+            if (userAnswers[questionIndex] !== undefined) {
+                return;
+            }
+
+            const question = questions[questionIndex];
+            const isCorrect = selectedOption === question.correct;
+            
+            // Store user's answer
+            userAnswers[questionIndex] = {
+                selected: selectedOption,
+                correct: question.correct,
+                isCorrect: isCorrect,
+                question: question.question,
+                options: question.options,
+                explanation_ru: question.explanation_ru
+            };
+
+            answeredCount++;
+
+            // Get all buttons in this question
+            const slideElement = document.querySelectorAll('.question-slide')[questionIndex];
+            const buttons = slideElement.querySelectorAll('.option-btn');
+            
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+
+            // Highlight correct and incorrect answers
+            if (isCorrect) {
+                buttons[selectedOption].classList.add('correct');
+            } else {
+                buttons[selectedOption].classList.add('incorrect');
+                buttons[question.correct].classList.add('correct');
+            }
+
+            // Show feedback
+            const feedbackContainer = document.getElementById(`feedback-${questionIndex}`);
+            feedbackContainer.classList.add('show');
+            
+            if (isCorrect) {
+                feedbackContainer.classList.add('correct-feedback');
+                feedbackContainer.innerHTML = `
+                    <div class="feedback-title">✓ Правильно!</div>
+                    <div class="feedback-text">${question.explanation_ru}</div>
+                `;
+            } else {
+                feedbackContainer.classList.add('incorrect-feedback');
+                feedbackContainer.innerHTML = `
+                    <div class="feedback-title">✗ Неправильно</div>
+                    <div class="feedback-text">
+                        <strong>Ваш ответ:</strong> ${question.options[selectedOption]}<br><br>
+                        <strong>Правильный ответ:</strong> ${question.options[question.correct]}<br><br>
+                        <strong>Объяснение:</strong> ${question.explanation_ru}
+                    </div>
+                `;
+            }
+
+            // Check if all questions are answered
+            if (answeredCount === 25) {
+                setTimeout(() => {
+                    showSummary();
+                }, 500);
+            }
+        }
+
+        function showSummary() {
+            const correctCount = userAnswers.filter(a => a.isCorrect).length;
+            const incorrectCount = 25 - correctCount;
+            const percentage = Math.round((correctCount / 25) * 100);
+
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('incorrect-count').textContent = incorrectCount;
+            document.getElementById('score-percentage').textContent = percentage + '%';
+
+            let message = '';
+            if (percentage === 100) {
+                message = "Идеально! Вы эксперт в модальных глаголах MUST и HAVE TO!";
+            } else if (percentage >= 80) {
+                message = "Отлично! Вы очень хорошо понимаете эти модальные глаголы!";
+            } else if (percentage >= 60) {
+                message = "Хорошо! Вы знаете большинство правил. Продолжайте практиковаться!";
+            } else if (percentage >= 40) {
+                message = "Нормально! Вы поняли основное. Пересмотрите объяснения и попробуйте еще раз.";
+            } else {
+                message = "Продолжайте учиться! Модальные глаголы могут быть сложными. Внимательно пересмотрите каждый вопрос.";
+            }
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('summary-slide').style.display = 'flex';
+
+            // Generate review slides for incorrect answers
+            generateReviewSlides();
+        }
+
+        function generateReviewSlides() {
+            const incorrectAnswers = userAnswers.filter(a => !a.isCorrect);
+            const container = document.getElementById('review-slides-container');
+            
+            incorrectAnswers.forEach((answer, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = 'slide review-slide';
+                slideDiv.innerHTML = `
+                    <div class="slide-number">${28 + index} / ${27 + incorrectAnswers.length}</div>
+                    <div class="review-title">Разбор ошибки</div>
+                    <div class="review-question">Вопрос: ${answer.question}</div>
+                    <div class="review-answer">
+                        <span class="your-answer">Ваш ответ: ${answer.options[answer.selected]}</span>
+                    </div>
+                    <div class="review-answer">
+                        <span class="correct-answer">Правильный ответ: ${answer.options[answer.correct]}</span>
+                    </div>
+                    <div class="review-explanation">
+                        <strong>Объяснение:</strong><br>
+                        ${answer.explanation_ru}
+                    </div>
+                `;
+                container.appendChild(slideDiv);
+            });
+        }
+    </script>
+</body>
+</html>
