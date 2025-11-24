@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Химические Подготовки Поверхности</title>
+    <style>
+        :root {
+            --color-white: #ffffff;
+            --color-cream-100: #f8fafc;
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-300: #d1d5db;
+            --color-gray-500: #6b7280;
+            --color-gray-700: #374151;
+            --color-gray-900: #111827;
+            --color-blue-600: #2563eb;
+            --color-blue-700: #1d4ed8;
+            --color-green-500: #10b981;
+            --color-green-600: #059669;
+            --color-red-500: #ef4444;
+            --color-red-600: #dc2626;
+            --color-yellow-500: #eab308;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--color-white);
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .slide.title-slide {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide.summary-slide {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 { font-size: 3.75rem; font-weight: 700; line-height: 1.1; margin-bottom: 1rem; }
+        h2 { font-size: 2.25rem; font-weight: 700; line-height: 1.2; color: var(--color-blue-600); margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; font-weight: 600; color: var(--color-gray-900); margin-bottom: 0.8rem; }
+        p { font-size: 1.125rem; line-height: 1.6; color: var(--color-gray-700); }
+        ul { margin-left: 2rem; font-size: 1.125rem; line-height: 1.8; color: var(--color-gray-700); }
+        li { margin-bottom: 0.6rem; }
+
+        .slide-header {
+            padding: 4rem;
+            flex: 0 0 auto;
+        }
+
+        .slide-content {
+            padding: 4rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .question-container {
+            background-color: var(--color-gray-50);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--color-blue-600);
+        }
+
+        .question-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .answers-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .answer-btn {
+            background-color: white;
+            border: 2px solid var(--color-gray-300);
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: left;
+            transition: all 0.3s ease;
+            color: var(--color-gray-700);
+            font-weight: 500;
+        }
+
+        .answer-btn:hover {
+            border-color: var(--color-blue-600);
+            background-color: #eff6ff;
+        }
+
+        .answer-btn.correct {
+            background-color: #dcfce7;
+            border-color: var(--color-green-600);
+            color: var(--color-green-600);
+        }
+
+        .answer-btn.incorrect {
+            background-color: #fee2e2;
+            border-color: var(--color-red-600);
+            color: var(--color-red-600);
+        }
+
+        .feedback {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background-color: var(--color-gray-300);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--color-blue-600);
+            transition: width 0.3s ease;
+        }
+
+        .result-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+            border: 2px solid var(--color-gray-300);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 1.125rem;
+            color: var(--color-gray-600);
+        }
+
+        .correct-stat { color: var(--color-green-600); }
+        .incorrect-stat { color: var(--color-red-600); }
+
+        .info-table {
+            font-size: 1rem;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .info-table td {
+            border: 1px solid var(--color-gray-300);
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .info-table td:first-child {
+            background-color: var(--color-gray-100);
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        .subtitle { font-size: 1.5rem; font-weight: 500; opacity: 0.9; }
+        .meta { font-size: 0.95rem; opacity: 0.8; margin-top: 1.5rem; }
+
+        .summary-title { font-size: 2.5rem; margin-bottom: 2rem; }
+        .summary-subtitle { font-size: 1.5rem; margin-top: 2rem; opacity: 0.95; }
+
+        .table-container {
+            font-size: 0.95rem;
+            overflow-y: auto;
+            max-height: 280px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<section class="slide title-slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 5%;"></div>
+    </div>
+    <h1>Химические подготовки поверхности</h1>
+    <p class="subtitle">Критерии выбора. Опыт внедрения</p>
+    <p class="meta">Евстигнеева Александра Васильевна<br>инженер-технолог | PETROCOMMERZ TECHNOLOGIES</p>
+</section>
+
+<!-- Slide 2: Intro -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 10%;"></div>
+    </div>
+    <h2>Шероховатость поверхности</h2>
+    <div class="slide-content">
+        <p><strong>Основные параметры:</strong></p>
+        <ul>
+            <li><strong>Ra</strong> – среднее арифметическое отклонение профиля</li>
+            <li><strong>R₂</strong> – высота неровностей профиля по десяти точкам</li>
+        </ul>
+        <p style="margin-top: 1.5rem;"><strong>Три степени шероховатости:</strong></p>
+        <ul>
+            <li><strong>Малая:</strong> R2 = 0.18–0.25 мкм (металлизация)</li>
+            <li><strong>Средняя:</strong> R2 = 0.25–0.50 мкм (фоторезист)</li>
+            <li><strong>Высокая:</strong> Ra = 0.30–0.80 мкм (паяльная маска)</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Slide 3: Question 1 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 15%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Какой параметр описывает среднее арифметическое отклонение профиля?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, true)">Ra – среднее арифметическое отклонение профиля</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">R₂ – высота неровностей по десяти точкам</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">R3 – максимальная высота профиля</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: CM-345T Overview -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 20%;"></div>
+    </div>
+    <h2>CM-345T: Малая шероховатость</h2>
+    <div class="slide-content">
+        <h3>Micro Etching Stabilizer CM-345T</h3>
+        <p><strong>Применение:</strong></p>
+        <ul>
+            <li>Подготовка перед металлизацией</li>
+            <li>Подготовка перед HASL</li>
+            <li>Предварительная обработка плат с OSP</li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>Базовый состав:</strong> H₂O₂/H₂SO₄</p>
+    </div>
+</section>
+
+<!-- Slide 5: Question 2 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 25%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Каков базовый химический состав CM-345T?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Персульфат калия</button>
+                <button class="answer-btn" onclick="checkAnswer(this, true)">H₂O₂ и H₂SO₄</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Хлорид меди и органические кислоты</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: CM-345T Parameters -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 30%;"></div>
+    </div>
+    <h2>Рабочие параметры CM-345T</h2>
+    <div class="slide-content">
+        <table class="info-table">
+            <tr><td>Температура</td><td>25–40 °C</td></tr>
+            <tr><td>Время горизонтальной обработки</td><td>30–60 сек</td></tr>
+            <tr><td>Время вертикальной обработки</td><td>60–180 сек</td></tr>
+            <tr><td>Концентрация CM-345T</td><td>25–35 мл/л (оптимум: 30 мл/л)</td></tr>
+            <tr><td>Степень стравливания</td><td>1–2 мкм</td></tr>
+            <tr><td>Требования к DI-воде</td><td>σ &lt; 5 мкСм, Cl⁻ &lt; 1.0 мг/л</td></tr>
+        </table>
+    </div>
+</section>
+
+<!-- Slide 7: Question 3 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 35%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Какова степень стравливания меди при использовании CM-345T?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, true)">1–2 мкм</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">0.7–1.5 мкм</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">0.4–1.6 мкм</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: ZTW-806/352 Overview -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 40%;"></div>
+    </div>
+    <h2>ZTW-806 и ZTW-352</h2>
+    <div class="slide-content">
+        <p><strong>ZTW-806 – для ImSn, ENIG</strong></p>
+        <p><strong>ZTW-352 – для ImAg</strong></p>
+        <p style="margin-top: 1.5rem;"><strong>Общие характеристики:</strong></p>
+        <ul>
+            <li>Раствор на основе персульфата калия</li>
+            <li>Подходит для горизонтальной и вертикальной обработки</li>
+            <li>Концентрация: 400–600 мл/л (оптимум: 500 мл/л)</li>
+            <li>Степень стравливания: 1.0–2.5 мкм (для ENIG 2 мкм; ImSn 1 мкм)</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Slide 9: Question 4 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 45%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ На основе какого вещества разработаны ZTW-806 и ZTW-352?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, false)">H₂O₂ и H₂SO₄</button>
+                <button class="answer-btn" onclick="checkAnswer(this, true)">Персульфат калия</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Хлорид аммония</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 10: CZ-3200 Overview -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 50%;"></div>
+    </div>
+    <h2>CZ-3200: Средняя шероховатость</h2>
+    <div class="slide-content">
+        <h3>Middle Roughening CZ-3200</h3>
+        <p><strong>Применение:</strong></p>
+        <ul>
+            <li>Подготовка поверхности перед нанесением фоторезиста</li>
+            <li>Подготовка перед HASL</li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>Характеристики:</strong></p>
+        <ul>
+            <li>Базовый состав: H₂O₂/H₂SO₄</li>
+            <li>Высокая производительность: ёмкость по меди 50 г/л</li>
+            <li>Глубина травления: перед ф/р – 0.8–1.2 мкм</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Slide 11: Question 5 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 55%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Какова ёмкость по меди для CZ-3200?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, true)">50 г/л</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">60 г/л</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">30 г/л</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: CZ-3200 Parameters -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 60%;"></div>
+    </div>
+    <h2>Рабочие параметры CZ-3200</h2>
+    <div class="slide-content">
+        <table class="info-table">
+            <tr><td>Температура очистки</td><td>20–30 °C</td></tr>
+            <tr><td>Время очистки</td><td>30–90 сек</td></tr>
+            <tr><td>Температура микротравления</td><td>25–35 °C</td></tr>
+            <tr><td>Время микротравления</td><td>30–60 сек</td></tr>
+            <tr><td>Концентрация CZ-3200</td><td>40–80 мл/л (оптимум: 50 мл/л)</td></tr>
+            <tr><td>Степень стравливания</td><td>0.8–1.2 мкм</td></tr>
+        </table>
+    </div>
+</section>
+
+<!-- Slide 13: Question 6 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 65%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Какова оптимальная концентрация CZ-3200 в рабочем растворе?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, true)">50 мл/л</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">30 мл/л</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">80 мл/л</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 14: CZ-3120 Overview -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 70%;"></div>
+    </div>
+    <h2>CZ-3120: Высокая шероховатость</h2>
+    <div class="slide-content">
+        <h3>Super Roughening CZ-3120</h3>
+        <p><strong>Применение:</strong></p>
+        <ul>
+            <li>Подготовка поверхности перед нанесением паяльной маски (ПМ)</li>
+            <li>Предварительная обработка в процессах ENIG и ImSn</li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>Характеристики:</strong></p>
+        <ul>
+            <li>Готовый раствор CZ-3120A + раствор CZ-3120B для корректировки</li>
+            <li>Ёмкость по меди: 60 г/л</li>
+            <li>Глубина травления: 0.7–1.6 мкм</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Slide 15: Question 7 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 75%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Для каких процессов предназначен CZ-3120 в качестве основного травителя?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, true)">Для нанесения паяльной маски (ПМ)</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Для HASL и металлизации</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Для OSP и ImAg</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 16: CZ-3120 Parameters -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 80%;"></div>
+    </div>
+    <h2>Рабочие параметры CZ-3120</h2>
+    <div class="slide-content">
+        <table class="info-table">
+            <tr><td>Температура очистки</td><td>20–30 °C</td></tr>
+            <tr><td>Время очистки</td><td>30–90 сек</td></tr>
+            <tr><td>Температура микротравления</td><td>20–40 °C</td></tr>
+            <tr><td>Время микротравления</td><td>20–90 сек</td></tr>
+            <tr><td>CZ-3120A</td><td>15–35 г/л</td></tr>
+            <tr><td>CZ-3120B (корректировка)</td><td>100% от СZ-3120A</td></tr>
+            <tr><td>Степень стравливания</td><td>0.4–1.6 мкм</td></tr>
+        </table>
+    </div>
+</section>
+
+<!-- Slide 17: Question 8 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 85%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Какая кислота используется для кислой промывки при использовании CZ-3120?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Серная кислота (H₂SO₄)</button>
+                <button class="answer-btn" onclick="checkAnswer(this, true)">Соляная кислота (HCl)</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Азотная кислота (HNO₃)</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 18: ZTW-503 Overview -->
+<section class="slide p-16" style="background-color: #fafafa;">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 90%;"></div>
+    </div>
+    <h2>ZTW-503: Коричневое оксидирование</h2>
+    <div class="slide-content">
+        <h3>Brown Oxidant ZTW-503</h3>
+        <p><strong>Применение:</strong> Подготовка поверхности перед прессованием</p>
+        <p style="margin-top: 1rem;"><strong>Характеристики:</strong></p>
+        <ul>
+            <li>Базовый состав: H₂O₂/H₂SO₄</li>
+            <li>Отсутствие «розовых колец» на внутренних слоях после прессования</li>
+            <li>Подходит для горизонтальной и вертикальной обработки</li>
+            <li>Глубина травления: 1.0–2.0 мкм</li>
+        </ul>
+    </div>
+</section>
+
+<!-- Slide 19: Question 9 -->
+<section class="slide p-16">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 95%;"></div>
+    </div>
+    <div class="slide-content">
+        <div class="question-container">
+            <div class="question-text">❓ Какое преимущество обеспечивает ZTW-503 после прессования?</div>
+            <div class="answers-group">
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Идеальную гладкость поверхности</button>
+                <button class="answer-btn" onclick="checkAnswer(this, true)">Отсутствие «розовых колец» на внутренних слоях</button>
+                <button class="answer-btn" onclick="checkAnswer(this, false)">Максимальную адгезию покрытия</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 20: Summary -->
+<section class="slide summary-slide">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 100%;"></div>
+    </div>
+    <h1 class="summary-title">Результаты тестирования</h1>
+    <div style="display: flex; gap: 3rem; justify-content: center; align-items: flex-start;">
+        <div class="result-box" style="background-color: #dcfce7; border-color: #059669;">
+            <div class="stat-label">✓ Правильных ответов</div>
+            <div class="stat-number correct-stat" id="correctCount">0</div>
+        </div>
+        <div class="result-box" style="background-color: #fee2e2; border-color: #dc2626;">
+            <div class="stat-label">✗ Неправильных ответов</div>
+            <div class="stat-number incorrect-stat" id="incorrectCount">0</div>
+        </div>
+        <div class="result-box" style="background-color: white; border-color: #059669;">
+            <div class="stat-label">Процент успеха</div>
+            <div class="stat-number" style="color: #059669;" id="percentageScore">0%</div>
+        </div>
+    </div>
+    <p class="summary-subtitle">Спасибо за прохождение тестирования!</p>
+</section>
+
+<script>
+    let correctAnswers = 0;
+    let incorrectAnswers = 0;
+    const totalQuestions = 9;
+
+    function checkAnswer(button, isCorrect) {
+        const answerGroup = button.parentElement;
+        const buttons = answerGroup.querySelectorAll('.answer-btn');
+        
+        // Disable all buttons after answering
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (isCorrect) {
+            button.classList.add('correct');
+            button.textContent += ' ✓ Верно!';
+            correctAnswers++;
+        } else {
+            button.classList.add('incorrect');
+            button.textContent += ' ✗ Неверно';
+            incorrectAnswers++;
+        }
+
+        // Update summary
+        updateSummary();
+    }
+
+    function updateSummary() {
+        document.getElementById('correctCount').textContent = correctAnswers;
+        document.getElementById('incorrectCount').textContent = incorrectAnswers;
+        
+        const percentage = totalQuestions > 0 
+            ? Math.round((correctAnswers / totalQuestions) * 100) 
+            : 0;
+        document.getElementById('percentageScore').textContent = percentage + '%';
+    }
+</script>
+
+</body>
+</html>
