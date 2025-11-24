@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЭЛМА - Тест для отдела продаж</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 4rem;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.title-slide {
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+            color: #ffffff;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide.summary-slide {
+            background-color: #f0f9ff;
+        }
+
+        .slide.review-slide {
+            background-color: #fef3c7;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .title-slide h1 {
+            color: #ffffff;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #0284c7;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #075985;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .title-slide p {
+            color: #ffffff;
+            font-size: 1.25rem;
+            opacity: 0.95;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .option-button {
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #0284c7;
+            background-color: #ffffff;
+            color: #0284c7;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-button:hover {
+            background-color: #e0f2fe;
+            transform: translateY(-2px);
+        }
+
+        .option-button.correct {
+            background-color: #10b981;
+            color: #ffffff;
+            border-color: #10b981;
+        }
+
+        .option-button.incorrect {
+            background-color: #ef4444;
+            color: #ffffff;
+            border-color: #ef4444;
+        }
+
+        .option-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct-feedback {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .feedback.incorrect-feedback {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            border-left: 4px solid #ef4444;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            gap: 2rem;
+        }
+
+        .stat-box {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .stat-correct {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .stat-incorrect {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        .stat-score {
+            background-color: #dbeafe;
+            color: #075985;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+        }
+
+        .review-item {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .review-question {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .review-your-answer {
+            color: #ef4444;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-correct-answer {
+            color: #10b981;
+            font-weight: 500;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .title-slide .slide-number {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .end-message {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #10b981;
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<section class="slide title-slide">
+    <h1>ЭЛМА</h1>
+    <p>Тест для отдела продаж</p>
+    <p style="font-size: 1rem; margin-top: 2rem;">Проверьте ваше знание продукции компании</p>
+    <div class="slide-number">1 / 30</div>
+</section>
+
+<!-- Slide 2: Вопрос 1 -->
+<section class="slide">
+    <h2>Вопрос 1: История компании</h2>
+    <div class="question-text">Сколько лет компания ЭЛМА разрабатывает технологические процессы для печатных плат?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">10 лет</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">20 лет</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">30 лет</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">40 лет</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">2 / 30</div>
+</section>
+
+<!-- Slide 3: Вопрос 2 -->
+<section class="slide">
+    <h2>Вопрос 2: Уникальность</h2>
+    <div class="question-text">ЭЛМА является единственной в России компанией, производящей...</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">Только оборудование для ПП</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Только химические материалы</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">Полный комплекс технологических процессов и оборудения</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Только фоторезисты</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">3 / 30</div>
+</section>
+
+<!-- Slide 4: Вопрос 3 -->
+<section class="slide">
+    <h2>Вопрос 3: Оборудование</h2>
+    <div class="question-text">Какое оборудование использует вертикальную погружную технологию обработки?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">ЭЛГАМЕТ</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛМАКОН</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛТРАХИМ</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛТРАМЕД</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">4 / 30</div>
+</section>
+
+<!-- Slide 5: Вопрос 4 -->
+<section class="slide">
+    <h2>Вопрос 4: Конвейерные установки</h2>
+    <div class="question-text">ЭЛМАКОН - это конвейерная установка для обработки плат толщиной:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">От 0.1 мм</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">От 0.5 мм</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">От 1.0 мм</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">От 2.0 мм</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">5 / 30</div>
+</section>
+
+<!-- Slide 6: Вопрос 5 -->
+<section class="slide">
+    <h2>Вопрос 5: Струйная обработка</h2>
+    <div class="question-text">ЭЛТРАХИМ исключает эффект 'лужи' благодаря:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">Высокой температуре раствора</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">Вертикальному расположению платы</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Использованию специального фоторезиста</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Модифицированному электролиту</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">6 / 30</div>
+</section>
+
+<!-- Slide 7: Вопрос 6 -->
+<section class="slide">
+    <h2>Вопрос 6: Регенерация раствора</h2>
+    <div class="question-text">Для чего предназначена установка ЭЛТРАМЕД?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">Регенерация травильного раствора и извлечение меди</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Нанесение паяльной маски</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Химическое меднение отверстий</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Гальваническое оловянирование</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">7 / 30</div>
+</section>
+
+<!-- Slide 8: Вопрос 7 -->
+<section class="slide">
+    <h2>Вопрос 7: Паяльная маска</h2>
+    <div class="question-text">ЭЛ-ПМ - это установка для:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">Травления меди</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Гальванического серебрения</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">Струйно-факельного нанесения паяльной маски и маркировки</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Снятия фоторезиста</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">8 / 30</div>
+</section>
+
+<!-- Slide 9: Вопрос 8 -->
+<section class="slide">
+    <h2>Вопрос 8: Микротравление перед фоторезистом</h2>
+    <div class="question-text">ММТО-1230 - это модифицированное микротравление. На какой основе?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">Персульфата натрия и серной кислоты</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Азотной кислоты</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Соляной кислоты</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Марганцовки</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">9 / 30</div>
+</section>
+
+<!-- Slide 10: Вопрос 9 -->
+<section class="slide">
+    <h2>Вопрос 9: Классность плат</h2>
+    <div class="question-text">До какого класса точности ЭЛМА обеспечивает производство ПП?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">До 5 класса</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">До 7 класса</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">До 9 класса</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">До 10 класса</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">10 / 30</div>
+</section>
+
+<!-- Slide 11: Вопрос 10 -->
+<section class="slide">
+    <h2>Вопрос 10: Стандарты</h2>
+    <div class="question-text">В какой стандарт внесены технологические процессы ЭЛМА?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">ГОСТ 107.460092.028-96</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">ОСТ 107.460092.028-96</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ISO 107.460092.028-96</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">TU 107.460092.028-96</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">11 / 30</div>
+</section>
+
+<!-- Slide 12: Вопрос 11 -->
+<section class="slide">
+    <h2>Вопрос 11: Номенклатура - ХМ</h2>
+    <div class="question-text">ЭЛХМ-200 - это:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">Химическое меднение отверстий</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Прямая металлизация</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Гальваническое осаждение меди</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Гальваническое серебрение</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">12 / 30</div>
+</section>
+
+<!-- Slide 13: Вопрос 12 -->
+<section class="slide">
+    <h2>Вопрос 12: ПМ-300</h2>
+    <div class="question-text">ПМ-300 использует технологию прямой металлизации с:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">Медным катализатором</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">Оловянно-палладиевым катализатором</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Серебряным катализатором</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Никелевым катализатором</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">13 / 30</div>
+</section>
+
+<!-- Slide 14: Вопрос 13 -->
+<section class="slide">
+    <h2>Вопрос 13: ПЛАТАМЕТ-600</h2>
+    <div class="question-text">ПЛАТАМЕТ-600 - это гальваническое осаждение меди с рассеивающей способностью 1:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">1:5</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">1:10</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">1:15</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">1:20</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">14 / 30</div>
+</section>
+
+<!-- Slide 15: Вопрос 14 -->
+<section class="slide">
+    <h2>Вопрос 14: СНФ-725</h2>
+    <div class="question-text">СНФ-725 предназначен для:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">Снятия щелочесмываемого фоторезиста</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Травления меди</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Перманганатной обработки</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Гальванического серебрения</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">15 / 30</div>
+</section>
+
+<!-- Slide 16: Вопрос 15 -->
+<section class="slide">
+    <h2>Вопрос 15: ТСМ-810</h2>
+    <div class="question-text">ТСМ-810 - это травление меди в растворе:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">Аммиачно-сульфатном</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Хлоридном</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Сульфатном</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Азотнокислом</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">16 / 30</div>
+</section>
+
+<!-- Slide 17: Вопрос 16 -->
+<section class="slide">
+    <h2>Вопрос 16: ТОЛ-801 и ТОЛС-821</h2>
+    <div class="question-text">Эти продукты предназначены для:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">Удаления металлорезиста (олова и олово-свинца)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Нанесения металлорезиста</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Гальванического осаждения меди</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Снятия фоторезиста</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">17 / 30</div>
+</section>
+
+<!-- Slide 18: Вопрос 17 -->
+<section class="slide">
+    <h2>Вопрос 17: ЭЛМА-1401</h2>
+    <div class="question-text">ЭЛМА-1401 - это защитная фотоформируемая паяльная маска. Она является:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">Первой российской разработкой, внесенной в ОСТ 107.460092.028-96</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Импортным продуктом</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Лицензионным продуктом</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Прототипом</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">18 / 30</div>
+</section>
+
+<!-- Slide 19: Вопрос 18 -->
+<section class="slide">
+    <h2>Вопрос 18: Финишные покрытия</h2>
+    <div class="question-text">ХИМНИЗ-1600 - это:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">Гальваническое серебрение</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Иммерсионное серебрение</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">ENIG (химический никель-фосфор + иммерсионное золочение)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Иммерсионное оловянирование</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">19 / 30</div>
+</section>
+
+<!-- Slide 20: Вопрос 19 -->
+<section class="slide">
+    <h2>Вопрос 19: ENIG - толщины</h2>
+    <div class="question-text">При ENIG-покрытии толщина никель-фосфора составляет:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">1-2 мкм</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">3-6 мкм</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">7-10 мкм</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">10-15 мкм</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">20 / 30</div>
+</section>
+
+<!-- Slide 21: Вопрос 20 -->
+<section class="slide">
+    <h2>Вопрос 20: Иммерсионное оловянирование</h2>
+    <div class="question-text">ИММЕРСОЛ-1700 - толщина финишного покрытия:</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">0.5-0.8 мкм</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">1.0-1.3 мкм</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">2.0-2.5 мкм</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">3.0-4.0 мкм</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">21 / 30</div>
+</section>
+
+<!-- Slide 22: Вопрос 21 - Практический сценарий 1 -->
+<section class="slide">
+    <h2>Вопрос 21: Сценарий - Подготовка перед фоторезистом</h2>
+    <div class="question-text">Клиент производит платы 7-го класса точности. Требуется максимальная адгезия фоторезиста. Какой продукт ММТО выбрать?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">ММТО-1230 (температура 25-30°C, скорость 0,51 мкм/мин)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ММТО-1231 (температура 30-34°C)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ММТО-1232 (температура 50-60°C)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">Не имеет значения</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">22 / 30</div>
+</section>
+
+<!-- Slide 23: Вопрос 22 - Практический сценарий 2 -->
+<section class="slide">
+    <h2>Вопрос 22: Сценарий - Металлизация отверстий</h2>
+    <div class="question-text">Производство требует альтернативы химическому меднению, более простой и экологичный процесс. Какой продукт рекомендовать?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛХМ-200 (химическое меднение)</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">ПМ-300 (прямая металлизация с оловянно-палладиевым катализатором)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ПЛАТАМЕТ-600 (гальваническое меднение)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ПО-400 (перманганатная обработка)</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">23 / 30</div>
+</section>
+
+<!-- Slide 24: Вопрос 23 - Практический сценарий 3 -->
+<section class="slide">
+    <h2>Вопрос 23: Сценарий - Травление меди</h2>
+    <div class="question-text">Клиент использует травление меди и хочет регенерировать раствор прямым электролизом для извлечения меди. Какой процесс использовать?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">ТСМ-810 без регенерации</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">ТСМ-810 с регенерацией через ЭЛТРАМЕД</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ТОЛ-801</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">СНФ-725</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">24 / 30</div>
+</section>
+
+<!-- Slide 25: Вопрос 24 - Практический сценарий 4 -->
+<section class="slide">
+    <h2>Вопрос 24: Сценарий - Подготовка МПП</h2>
+    <div class="question-text">При производстве многослойных ПП нужно подготовить внутренние слои перед прессованием, исключив 'розовые кольца'. Какой продукт?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">УСАД-1100 (подготовка слоев МПП)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ММТО-1230 (подготовка перед фоторезистом)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ПО-400 (перманганатная обработка)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛТРАХИМ (установка)</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">25 / 30</div>
+</section>
+
+<!-- Slide 26: Вопрос 25 - Практический сценарий 5 -->
+<section class="slide">
+    <h2>Вопрос 25: Сценарий - Финишное покрытие для SMD</h2>
+    <div class="question-text">Заказчик требует финишное покрытие для поверхностного монтажа (SMD) особенно для выводов микросхем. Какой продукт оптимален?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛНИС-1000 (гальваническое серебрение)</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">ХИМНИЗ-1600 (ENIG - никель-золочение)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ИММЕРСОЛ-1700 (иммерсионное оловянирование)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛЗОЛ-1800 (гальваническое золочение)</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">26 / 30</div>
+</section>
+
+<!-- Slide 27: Вопрос 26 - Практический сценарий 6 -->
+<section class="slide">
+    <h2>Вопрос 26: Сценарий - Альтернатива горячему лужению</h2>
+    <div class="question-text">Клиент ищет финишное покрытие как альтернативу горячему лужению. Какой процесс ЭЛМА подойдет?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛНИС-1000 (гальваническое серебрение)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ХИМНИЗ-1600 (ENIG)</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">ИММЕРСОЛ-1700 (иммерсионное оловянирование) - компланарная поверхность</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ПОС (гальваническое оловянирование)</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">27 / 30</div>
+</section>
+
+<!-- Slide 28: Вопрос 27 - Практический сценарий 7 -->
+<section class="slide">
+    <h2>Вопрос 27: Сценарий - Тонкие гибкие платы</h2>
+    <div class="question-text">Клиент производит гибкие и гибко-жесткие платы, требуется автоматическая обработка слоев от 0.1 мм. Какое оборудование ЭЛМА?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">ЭЛМАКОН (конвейерные установки)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛГАМЕТ (вертикальные химико-гальванические линии)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛТРАХИМ (вертикальная струйная обработка)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛ-ПМ (нанесение паяльной маски)</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">28 / 30</div>
+</section>
+
+<!-- Slide 29: Вопрос 28 - Практический сценарий 8 -->
+<section class="slide">
+    <h2>Вопрос 28: Сценарий - Опытное производство ПП</h2>
+    <div class="question-text">Опытное производство требует гибкую установку для высокоточных операций (травление, проявление, снятие фоторезиста) с равномерной обработкой обеих сторон. Какое оборудование?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, true)">ЭЛТРАХИМ (вертикальная струйная обработка, исключает эффект 'лужи')</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛГАМЕТ (для производства)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛМАКОН (для конвейерной обработки)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛТРАМЕД (для регенерации)</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">29 / 30</div>
+</section>
+
+<!-- Slide 30: Вопрос 29 - Практический сценарий 9 -->
+<section class="slide">
+    <h2>Вопрос 29: Сценарий - Контроль качества гальваники</h2>
+    <div class="question-text">Лаборатория контроля качества требует оборудование для проверки режимов гальванических процессов и подбора параметров электролитов. Какой продукт ЭЛМА?</div>
+    <div class="options-container">
+        <button class="option-button" onclick="checkAnswer(this, false)">РЛЗ-01 (разрывная машина)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ЭЛМА-ЦВА (определение органических добавок)</button>
+        <button class="option-button" onclick="checkAnswer(this, true)">Ячейка Хулла (лабораторное испытание режимов)</button>
+        <button class="option-button" onclick="checkAnswer(this, false)">ПЛАТАМЕТ-600 (электролит)</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="slide-number">30 / 30</div>
+</section>
+
+<!-- Slide 31: Summary -->
+<section class="slide summary-slide">
+    <h2>Итоговые результаты</h2>
+    <div class="stats-container">
+        <div class="stat-box stat-correct">
+            <div class="stat-number" id="correctCount">0</div>
+            <div class="stat-label">Правильных</div>
+        </div>
+        <div class="stat-box stat-incorrect">
+            <div class="stat-number" id="incorrectCount">0</div>
+            <div class="stat-label">Неправильных</div>
+        </div>
+        <div class="stat-box stat-score">
+            <div class="stat-number" id="scorePercent">0%</div>
+            <div class="stat-label">Результат</div>
+        </div>
+    </div>
+    <div class="end-message" id="endMessage"></div>
+    <div class="slide-number">31 / 30</div>
+</section>
+
+<!-- Slide 32-60: Review slides for incorrect answers -->
+<div id="reviewContainer"></div>
+
+<script>
+    let answers = {
+        correct: 0,
+        incorrect: 0,
+        errors: []
+    };
+
+    let currentQuestion = 0;
+    const totalQuestions = 29;
+
+    function checkAnswer(button, isCorrect) {
+        const buttons = button.parentElement.querySelectorAll('.option-button');
+        const feedback = button.parentElement.parentElement.querySelector('.feedback');
+        
+        // Disable all buttons
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (isCorrect) {
+            button.classList.add('correct');
+            feedback.classList.add('show', 'correct-feedback');
+            feedback.innerHTML = '✓ Правильно!';
+            answers.correct++;
+        } else {
+            button.classList.add('incorrect');
+            // Find and highlight the correct answer
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes('true')) {
+                    btn.classList.add('correct');
+                }
+            });
+            feedback.classList.add('show', 'incorrect-feedback');
+            feedback.innerHTML = '✗ Неправильно. Правильный ответ выделен зелёным.';
+            answers.incorrect++;
+            
+            // Store error info
+            const question = button.parentElement.parentElement.querySelector('.question-text').innerHTML;
+            const userAnswer = button.innerHTML;
+            const correctAnswer = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes('true')).innerHTML;
+            answers.errors.push({ question, userAnswer, correctAnswer });
+        }
+
+        currentQuestion++;
+        updateSummary();
+    }
+
+    function updateSummary() {
+        const totalAnswered = answers.correct + answers.incorrect;
+        if (totalAnswered === totalQuestions) {
+            const percentage = Math.round((answers.correct / totalQuestions) * 100);
+            document.getElementById('correctCount').innerHTML = answers.correct;
+            document.getElementById('incorrectCount').innerHTML = answers.incorrect;
+            document.getElementById('scorePercent').innerHTML = percentage + '%';
+            
+            let message = '';
+            if (percentage === 100) {
+                message = 'Отлично! Вы идеально знаете продукцию ЭЛМА!';
+            } else if (percentage >= 80) {
+                message = 'Хорошо! У вас крепкие знания продукции.';
+            } else if (percentage >= 60) {
+                message = 'Удовлетворительно. Рекомендуется повторить материал.';
+            } else {
+                message = 'Нужно более тщательно изучить продукцию ЭЛМА.';
+            }
+            document.getElementById('endMessage').innerHTML = message;
+            
+            // Generate review slides
+            generateReviewSlides();
+        }
+    }
+
+    function generateReviewSlides() {
+        const container = document.getElementById('reviewContainer');
+        
+        if (answers.errors.length === 0) {
+            // Perfect score - no errors to review
+            const slide = document.createElement('section');
+            slide.className = 'slide review-slide';
+            slide.innerHTML = `
+                <h2>Обзор ошибок</h2>
+                <div style="text-align: center; padding: 3rem; color: #059669; font-size: 1.5rem; font-weight: 600;">
+                    Ошибок не обнаружено!<br><br>
+                    Вы прошли тест без ошибок. Отличная подготовка отдела!
+                </div>
+                <div class="slide-number">32 / 32</div>
+            `;
+            container.appendChild(slide);
+        } else {
+            answers.errors.forEach((error, index) => {
+                const slide = document.createElement('section');
+                slide.className = 'slide review-slide';
+                slide.innerHTML = `
+                    <h2>Ошибка ${index + 1} из ${answers.errors.length}</h2>
+                    <div class="review-item">
+                        <div class="review-question"><strong>Вопрос:</strong> ${error.question}</div>
+                        <div class="review-your-answer"><strong>Ваш ответ:</strong> ${error.userAnswer}</div>
+                        <div class="review-correct-answer"><strong>Правильный ответ:</strong> ${error.correctAnswer}</div>
+                    </div>
+                    <div class="slide-number">${32 + index} / ${31 + answers.errors.length}</div>
+                `;
+                container.appendChild(slide);
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
